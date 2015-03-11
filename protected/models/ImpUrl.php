@@ -95,4 +95,29 @@ class ImpUrl extends CActiveRecord
 	{
 		return parent::model($className);
 	}
+
+	public function findByCPE()
+	{
+		$criteria=new CDbCriteria;
+
+		if(isset($_GET['Zone']) && !empty($_GET['Zone']))
+			$criteria->addCondition("p like '" . (int)$_GET['Zone'] .":%'");
+
+		if(isset($_GET['Campaing']) && !empty($_GET['Campaing']))
+			$criteria->addCondition("p like '%:%:%:" . (int)$_GET['Campaing'] . ":%'");	
+
+		$startTime = strtotime(date("Y-m-d"). " 00:00");
+		$startTime = strtotime($_GET['startday']. " 00:00");
+
+		$endTime = strtotime(date("Y-m-d"). " 24:00");
+		$endTime = strtotime($_GET['endday']. " 24:00");
+
+		$criteria->addCondition("creat_time <=" . $endTime);
+		$criteria->addCondition("creat_time >" . $startTime);
+
+		if(isset($_GET['Url']) && !empty($_GET['Url']))
+				$criteria->addCondition("url like '%" . $_GET['Url'] ."%'");
+
+		return  $this->findAll($criteria);
+	}	
 }
