@@ -23,7 +23,7 @@ class AdxController extends Controller
 
 			//$data["totClick"] <= 100 && 
 
-			if(rand(0,100000) > 99930 ){
+			if(rand(0,100000) > 99910 ){
 				$data["totClick"] = $data["totClick"]+1;
 				$this->writeDayClicks($data,$fileName.".json");
 				$this->writeLog("Click : " . $data["totClick"] . " | p : " . $_GET['p'],$fileName."_click.log");

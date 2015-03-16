@@ -37,7 +37,6 @@ class AnalysisController extends Controller
 			'tot' => count($model)
 		));
 	}
-
 	function countHourily($model){
 		$hourily = array();
 		$countOfTime = array();
@@ -78,9 +77,6 @@ class AnalysisController extends Controller
 				$contByUrl[$url] = $contByUrl[$url] + $urlValue;
 			}
 		}
-
-
-
 		return array(
 			"item" => $item,
 			"CBU" =>$contByUrl
@@ -103,4 +99,64 @@ class AnalysisController extends Controller
 		return  implode("/", $urlArray);
 	}
 
+	public function actionReportCpe()
+	{
+		ini_set("memory_limit","512M");
+		$item = array();
+
+		$model = ImpUrl::model()->findByCPE();
+		$countDayily = $this->countDayily($model);
+		$item = $this->transByDay($countDayily['dayily']);
+
+		$this->render('reportCpe', array(
+			'items' => $item['item'],
+			'COT' => $item['COT'],
+			'tot' => count($model)
+		));
+	}
+	function countDayily($model){
+		$dayily = array();
+		$countOfTime = array();
+
+		foreach ($model as $row) {
+			$day = $this->getDay($row->creat_time);
+			$url = $row->url;
+			$newValue = $dayily[$day][$url] + 1;
+			$dayily[$day][$url] = $newValue;
+
+			$newCount = $countOfTime[date("m/d",$row->creat_time)] + 1;
+			$countOfTime[date("m/d",$row->creat_time)] = $newCount;
+		}
+
+		return array(
+			"dayily" => $dayily,
+			"COT" => $countOfTime
+		);
+	}
+	
+	function transByDay($dayily){
+		$item = array();
+		$day = array();
+		$contByUrl = array();		
+		foreach ($dayily as $dayKey => $dayValue) {
+			$day = $dayKey;
+			foreach ($dayValue as $urlKey => $urlValue) {
+				$zone = $zoneKey;
+				$item[] = array(
+					'day'=>$day,
+					'url' => $urlKey,
+					'count' => $urlValue,
+				);
+				
+				$contByUrl[$url] = $contByUrl[$url] + $urlValue;
+			}
+		}
+		return array(
+			"item" => $item,
+			"CBU" =>$contByUrl
+		);
+	}
+	function getDay($time){
+		return date("m/d",$time);
+	}
 }
