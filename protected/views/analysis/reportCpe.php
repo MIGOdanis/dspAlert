@@ -1,6 +1,6 @@
-<link rel="stylesheet" href="/ytb/assets/jquery-ui/jquery-ui.css">
-<script src="/ytb/assets/jquery.js"></script>
-<script src="/ytb/assets/jquery-ui/jquery-ui.js"></script>
+<link rel="stylesheet" href="/dspAlert/assets/jquery-ui/ss-theam/jquery-ui.css">
+<script src="/dspAlert/assets/jquery.js"></script>
+<script src="/dspAlert/assets/jquery-ui/jquery-ui.js"></script>
 <script>
 $(function() {
 	$( "#endday" ).datepicker({
@@ -37,7 +37,7 @@ $(function() {
 	}
 </style>
 <div id="ytb-get-box">
-	<div id="logo"><img src="/ytb/assets/image/ytblog.jpg"></div>
+	<div id="logo"><img src="/dspAlert/assets/image/ytblog.jpg"></div>
 	<div>
 		<div id="search-bar">
 		<form method="get">
